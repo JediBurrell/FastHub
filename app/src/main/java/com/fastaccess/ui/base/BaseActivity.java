@@ -52,6 +52,7 @@ import com.fastaccess.ui.modules.user.UserPagerActivity;
 import com.fastaccess.ui.widgets.AvatarLayout;
 import com.fastaccess.ui.widgets.dialog.MessageDialogView;
 import com.fastaccess.ui.widgets.dialog.ProgressDialogFragment;
+import com.google.firebase.auth.FirebaseAuth;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.grandcentrix.thirtyinch.TiActivity;
@@ -78,6 +79,8 @@ public abstract class BaseActivity<V extends BaseMvp.FAView, P extends BasePrese
     @Nullable @BindView(R.id.extrasNav) public NavigationView extraNav;
 
     private static int REFRESH_CODE = 64;
+
+    private FirebaseAuth auth;
 
     private long backPressTimer;
     private Toast toast;
@@ -122,6 +125,15 @@ public abstract class BaseActivity<V extends BaseMvp.FAView, P extends BasePrese
         }
         setupNavigationView(extraNav);
         setupDrawer();
+
+        auth = FirebaseAuth.getInstance();
+        if(auth.getCurrentUser()==null)
+            auth.signInAnonymously();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override public boolean onCreateOptionsMenu(Menu menu) {
