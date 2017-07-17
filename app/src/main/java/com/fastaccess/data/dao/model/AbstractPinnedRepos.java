@@ -75,6 +75,40 @@ import static com.fastaccess.data.dao.model.PinnedRepos.REPO_FULL_NAME;
 
     }
 
+    @NonNull public static Observable<List<PinnedRepos>> getMenuRepos() {
+        return App.getInstance().getDataStore().select(PinnedRepos.class)
+                .where(LOGIN.eq(Login.getUser().getLogin()))
+                .orderBy(ENTRY_COUNT.desc(), ID.desc())
+                .limit(5)
+                .get()
+                .observable()
+                .toList()
+                .toObservable();
+    }
+
+    public static void migrateToVersion4() {
+        RxHelper.getObserver(Observable.fromPublisher(e -> {
+            Login login = Login.getUser();
+            if (login == null) {
+                e.onComplete();
+                return;
+            }
+            ReactiveEntityStore<Persistable> reactiveEntityStore = App.getInstance().getDataStore();
+            List<PinnedRepos> pinnedRepos = reactiveEntityStore.toBlocking().select(PinnedRepos.class)
+                    .where(LOGIN.isNull())
+                    .get()
+                    .toList();
+            if (pinnedRepos != null) {
+                for (PinnedRepos pinnedRepo : pinnedRepos) {
+                    pinnedRepo.setRepoFullName(login.getLogin());
+                    reactiveEntityStore.toBlocking().update(pinnedRepo);
+                }
+            }
+            Logger.e("Hello");
+            e.onComplete();
+        })).subscribe(o -> {/*do nothing*/}, Throwable::printStackTrace);
+    }
+
     public static void delete(long id) {
         App.getInstance().getDataStore().delete(PinnedRepos.class)
                 .where(ID.eq(id))
