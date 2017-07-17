@@ -108,4 +108,20 @@
 -dontwarn com.google.android.gms.**
 -dontwarn android.animation.**
 -dontwarn java.io.**
+<<<<<<< HEAD
 -dontwarn  android.content.**
+=======
+-dontwarn android.content.**
+-dontwarn org.jdom.**
+-dontwarn kotlin.reflect.jvm.internal.impl.descriptors.CallableDescriptor
+-dontwarn kotlin.reflect.jvm.internal.impl.descriptors.ClassDescriptor
+-dontwarn kotlin.reflect.jvm.internal.impl.descriptors.ClassifierDescriptorWithTypeParameters
+-dontwarn kotlin.reflect.jvm.internal.impl.descriptors.annotations.AnnotationDescriptor
+-dontwarn kotlin.reflect.jvm.internal.impl.descriptors.impl.PropertyDescriptorImpl
+-dontwarn kotlin.reflect.jvm.internal.impl.load.java.JavaClassFinder
+-dontwarn kotlin.reflect.jvm.internal.impl.resolve.OverridingUtil
+-dontwarn kotlin.reflect.jvm.internal.impl.types.DescriptorSubstitutor
+-dontwarn kotlin.reflect.jvm.internal.impl.types.DescriptorSubstitutor
+-dontwarn kotlin.reflect.jvm.internal.impl.types.TypeConstructor
+-keeppackagenames org.jsoup.nodes
+>>>>>>> parent of 7b89d1ec... this commit fixes #735 and releases 4.0.0
